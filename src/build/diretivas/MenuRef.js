@@ -1,19 +1,18 @@
-Module.directive('menuRef',[function(){
+Module.directive('menuRef',['MenuService',
+        function(MenuService){
     return {
         priority: 0 , 
         restrict:'A',
-        bindToController:{
-            'menuRef':'@'
-        },
+        scope:true,
+        controllerAs: '$ctrl',
         controller:function(){},
-        /*
         compile:function(){
             return {
                 pre: function($scope, $element, $attrs, $contr){
-                    
+                    $contr.menuRef = $attrs.menuRef ;
+                    $scope.$menu = $contr.$menu = MenuService.get( $attrs.menuRef );
                 }
             };
         },
-        */
     };
 }]);

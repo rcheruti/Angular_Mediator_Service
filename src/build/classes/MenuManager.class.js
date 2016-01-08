@@ -1,7 +1,10 @@
 
-function MenuManager(){
-    
+function MenuManagerConst(){
+    this.element = null;
 }
 
-var proto = MenuManager.prototype;
+var proto = MenuManagerConst.prototype;
+
+var MenuManager = new MenuManagerConst();
+
 

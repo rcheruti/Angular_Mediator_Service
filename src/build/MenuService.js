@@ -1,7 +1,7 @@
 Module.service('MenuService',[function(){
     
     var menuHash = {},
-        defaultMenu = null ,
+        defaultMenuName = null ,
         observerBox = new ObserverBox()
         ;
     
@@ -11,12 +11,12 @@ Module.service('MenuService',[function(){
     var ref = {
             // Map functions:
         get: function(menuName){
-            if( !menuName ) return defaultMenu; 
+            if( !menuName ) return menuHash[defaultMenuName];
             return menuHash[menuName];
         },
         put: function(menuName, menuEl){
             if( !menuName || !menuEl ) return ref;
-            var menu = menuHash[menuName] = new Menu(menuName, menuEl);
+            var menu = menuHash[menuName] = new Menu(menuName, menuEl, MenuManager);
             observerBox.dispatch( 'put', observerBox.event('put',{menu:menu}) );
             return ref;
         },
@@ -29,7 +29,7 @@ Module.service('MenuService',[function(){
         
             // Config functions:
         setDefault: function(menuName){
-            defaultMenu = menuHash[menuName];
+            defaultMenuName = menuName;
             return ref;
         },
         

@@ -1,17 +1,19 @@
-Module.directive('menuToggle',['MenuService',
-        function(MenuService){
+Module.directive('menuToggle',['$swipe','MenuService',
+        function($swipe,MenuService){
     return {
         restrict: 'A',
         priority: 10,
-        scope:{
-            'menuToggle':'@'
-        },
-        compile: function(){
-            return {
-                pre: function($scope, $element, $attr){
-                    
+        scope:false,
+        require:['?^menuRef'],
+        link: function($scope, $element, $attr, $ctrls){
+            var val = $attr.menuToggle;
+            if( !val ) return;
+            var $menu = $ctrls[0]? $ctrls[0].$menu : MenuService.get();
+            $swipe.bind($element, {
+                start: function(pos, ev){
+                    $menu.toggleClass( val );
                 }
-            };
+            });
         }
     };
 }]);

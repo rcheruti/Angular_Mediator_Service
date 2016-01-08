@@ -2,30 +2,50 @@
 (function(window){
 
 
-var Module = angular.module('Menu',[]);
+var Module = angular.module('Menu',['ngTouch']);
+
+Module.run(['$injector',function($injector){
+    
+    MenuManager.element = $injector.get('$rootElement');
+        
+}]);
 
 
 
-function Menu( menuName, menuEl ){
+function Menu( menuName, menuEl, manager ){
     this.name = menuName;
     this.element = angular.element(menuEl);
-    this.open = false;
     this.attrs = [];
+    this.manager = manager;
 }
+
 
 var proto = Menu.prototype;
-proto.put = function(val){  };
-proto.remove = function(val){  };
-proto.toggle = function(val){  };
+proto._valCss = function(val){ return 'menu-'+ val +'-'+this.name ; };
+proto.addClass = function(val){ 
+    if(!this.manager)return; 
+    this.manager.element.addClass( this._valCss(val) ); 
+};
+proto.removeClass = function(val){ 
+    if(!this.manager)return; 
+    this.manager.element.removeClass( this._valCss(val) ); 
+};
+proto.toggleClass = function(val){ 
+    if(!this.manager)return; 
+    this.manager.element.toggleClass( this._valCss(val) ); 
+};
 
 
 
 
-function MenuManager(){
-    
+function MenuManagerConst(){
+    this.element = null;
 }
 
-var proto = MenuManager.prototype;
+var proto = MenuManagerConst.prototype;
+
+var MenuManager = new MenuManagerConst();
+
 
 
 
@@ -112,7 +132,7 @@ proto.dispatch = function(eventName, event , syncOrDelay){
 Module.service('MenuService',[function(){
     
     var menuHash = {},
-        defaultMenu = null ,
+        defaultMenuName = null ,
         observerBox = new ObserverBox()
         ;
     
@@ -122,12 +142,12 @@ Module.service('MenuService',[function(){
     var ref = {
             // Map functions:
         get: function(menuName){
-            if( !menuName ) return defaultMenu; 
+            if( !menuName ) return menuHash[defaultMenuName];
             return menuHash[menuName];
         },
         put: function(menuName, menuEl){
             if( !menuName || !menuEl ) return ref;
-            var menu = menuHash[menuName] = new Menu(menuName, menuEl);
+            var menu = menuHash[menuName] = new Menu(menuName, menuEl, MenuManager);
             observerBox.dispatch( 'put', observerBox.event('put',{menu:menu}) );
             return ref;
         },
@@ -140,7 +160,7 @@ Module.service('MenuService',[function(){
         
             // Config functions:
         setDefault: function(menuName){
-            defaultMenu = menuHash[menuName];
+            defaultMenuName = menuName;
             return ref;
         },
         
@@ -163,15 +183,18 @@ Module.directive('menuElement',['MenuService',
     return {
         restrict: 'EA',
         scope:{
-            'menuElement':'@'
+            'menuElement':'@',
+            'menuDefault':'@'
         },
         compile: function(){
             return {
                 pre:function($scope, $element, $attr){
                     var menuName = $attr.menuElement ;
+                    var menuDefault = ($attr.menuDefault || '').toLowerCase() === 'true'? true : false ;
                     if(!menuName) throw 'You need to define a name for the menu '
                         +'with the "menu-element" attribute. This is required!';
                     MenuService.put(menuName, $element);
+                    if( menuDefault ) MenuService.setDefault( menuName );
                     $scope.$on('$destroy', function(){
                         MenuService.remove(menuName);
                     });
@@ -181,99 +204,41 @@ Module.directive('menuElement',['MenuService',
     };
 }]);
 
-Module.directive('menuPut',['MenuService',
+Module.directive('menuRef',['MenuService',
         function(MenuService){
-    return {
-        restrict: 'A',
-        priority: 10,
-        scope:{
-            'menuPut':'@'
-        },
-        compile: function(){
-            return {
-                pre: function($scope, $element, $attr){
-                    
-                }
-            };
-        }
-    };
-}]);
-
-Module.directive('menuRef',[function(){
     return {
         priority: 0 , 
         restrict:'A',
-        bindToController:{
-            'menuRef':'@'
-        },
+        scope:true,
+        controllerAs: '$ctrl',
         controller:function(){},
-        /*
         compile:function(){
             return {
                 pre: function($scope, $element, $attrs, $contr){
-                    
+                    $contr.menuRef = $attrs.menuRef ;
+                    $scope.$menu = $contr.$menu = MenuService.get( $attrs.menuRef );
                 }
             };
         },
-        */
     };
 }]);
 
-Module.directive('menuRemove',['MenuService',
-        function(MenuService){
+Module.directive('menuToggle',['$swipe','MenuService',
+        function($swipe,MenuService){
     return {
         restrict: 'A',
         priority: 10,
-        scope:{
-            'menuRemove':'@'
-        },
-        compile: function(){
-            return {
-                pre: function($scope, $element, $attr){
-                    
+        scope:false,
+        require:['?^menuRef'],
+        link: function($scope, $element, $attr, $ctrls){
+            var val = $attr.menuToggle;
+            if( !val ) return;
+            var $menu = $ctrls[0]? $ctrls[0].$menu : MenuService.get();
+            $swipe.bind($element, {
+                start: function(pos, ev){
+                    $menu.toggleClass( val );
                 }
-            };
-        }
-    };
-}]);
-
-Module.directive('menuSwitch',['MenuService',
-        function(MenuService){
-    return {
-        restrict: 'A',
-        priority: 10,
-        scope:{
-            'menuSwitch':'@'
-        },
-        require:['?menuRef'],
-        link: function($scope, $element, $attrs, $contrs){
-            var menuName = $contrs[0]? $contrs[0].menuRef : '' ,
-                menu = MenuService.get(menuName) ;
-            
-            MenuService.on('put',$scope, function(ev){
-                if(menuName === ev.menu.name) menu = ev.menu;
             });
-            MenuService.on('remove',$scope, function(ev){
-                if(menuName === ev.menu.name) menu = null;
-            });
-        }
-    };
-}]);
-
-Module.directive('menuToggle',['MenuService',
-        function(MenuService){
-    return {
-        restrict: 'A',
-        priority: 10,
-        scope:{
-            'menuToggle':'@'
-        },
-        compile: function(){
-            return {
-                pre: function($scope, $element, $attr){
-                    
-                }
-            };
         }
     };
 }]);

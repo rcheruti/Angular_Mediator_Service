@@ -8,10 +8,10 @@
         <link rel="stylesheet" type="text/css" href="styles.css" />
         
     </head>
-    <body>
+    <body ng-app="Module" ng-strict-di="true">
         
         
-        <div id="menuNumero1" menu-element="menu1">
+        <div id="menuNumero1" menu-element="menu1" menu-default="true">
             <ul>
                 <li>Link 1</li>
                 <li>Página 2</li>
@@ -22,8 +22,10 @@
         </div>
         
         
-        <div ng-controller="Menu1Div">
-            <button menu-ref="menu1"></button>
+        <div ng-controller="Menu1Div" menu-ref="" >
+            <button ng-click="$menu.toggleClass('open')">Toggle Menu</button>
+            <br/>
+            <button menu-toggle="open">Toggle Menu 2</button>
         </div>
         
         
