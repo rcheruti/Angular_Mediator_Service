@@ -22,6 +22,7 @@ Module.service('MenuService',[function(){
         },
         remove:function(menuName){
             var menu = menuHash[menuName];
+            menu.removeClassAll();
             delete menuHash[menuName];
             observerBox.dispatch( 'remove', observerBox.event('remove',{menu:menu}) );
             return ref;
