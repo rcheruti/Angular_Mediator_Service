@@ -34,7 +34,8 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         clean:{
-            build:[p.temp,p.www,p.dist]
+            build:[p.www,p.dist],
+            temp:[p.temp]
         },
         concat:{
             build:{
@@ -51,7 +52,8 @@ module.exports = function (grunt) {
                 src:[
                     p.dev+ 'build/prefix.txt',
                     p.dev+ 'build/main.js',
-                    p.dev+ 'build/**.js',
+                    p.dev+ 'build/classes/**',
+                    p.dev+ 'build/**',
                     p.dev+ 'build/sufix.txt',
                 ],
                 dest: c.dist.concat
@@ -93,8 +95,8 @@ module.exports = function (grunt) {
         copy:{
             dist:{
                 files:[{
-                    src: c.js.build,
-                    dest: p.dist
+                    src: c.dist.build,
+                    dest: c.dist.dist
                 }]
             },
             build:{
@@ -123,6 +125,6 @@ module.exports = function (grunt) {
         }
     });
     
-    grunt.registerTask('default',['clean','concat','uglify','cssmin','copy']);
+    grunt.registerTask('default',['clean','concat','uglify','cssmin','copy']); // ,'clean:temp'
     
 };
