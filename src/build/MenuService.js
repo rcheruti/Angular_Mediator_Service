@@ -1,4 +1,4 @@
-Module.service('MediatorService',[function(){
+Module.service('MenuService',[function(){
     
     
     

@@ -2,9 +2,9 @@
 (function(window){
 
 
-var Module = angular.module('Mediator',[]);
+var Module = angular.module('Menu',[]);
 
-Module.service('MediatorService',[function(){
+Module.service('MenuService',[function(){
     
     
     

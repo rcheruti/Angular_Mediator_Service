@@ -17,9 +17,9 @@ module.exports = function (grunt) {
     };
     var c = {
         dist: {
-            concat: p.temp+'AngularMediator.js',
-            dist: p.dist+'AngularMediator.js',
-            build: p.www+'AngularMediator.js',
+            concat: p.temp+'MenuService.js',
+            dist: p.dist+'MenuService.js',
+            build: p.www+'MenuService.js',
         },
         js: {
             concat: p.temp+'scripts.js',

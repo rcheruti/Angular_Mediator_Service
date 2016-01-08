@@ -1,0 +1,1 @@
+!function(a){var b=angular.module("Menu",[]);b.service("MenuService",[function(){var a={};return a}])}(window);

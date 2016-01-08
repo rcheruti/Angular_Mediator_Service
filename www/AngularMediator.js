@@ -1,1 +1,0 @@
-!function(a){var b=angular.module("Mediator",[]);b.service("MediatorService",[function(){var a={};return a}])}(window);

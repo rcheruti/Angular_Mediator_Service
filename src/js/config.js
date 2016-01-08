@@ -1,5 +1,5 @@
 
-var Module = angular.module('Module',['Mediator','ngAnimate','ui.router']);
+var Module = angular.module('Module',['Menu','ngAnimate','ui.router']);
 
 Module.config([function(){
         

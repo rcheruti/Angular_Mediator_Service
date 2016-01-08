@@ -1,2 +1,2 @@
 
-var Module = angular.module('Mediator',[]);
+var Module = angular.module('Menu',[]);
