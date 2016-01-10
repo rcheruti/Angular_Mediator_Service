@@ -1,6 +1,7 @@
 Module.directive('menuElement',['MenuService',
             function(MenuService){
     return {
+        priority: 0,
         restrict: 'EA',
         scope:false,
         compile: function(){
