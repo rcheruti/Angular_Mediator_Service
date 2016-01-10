@@ -6,7 +6,7 @@ Module.directive('menuAdd',['$swipe','MenuService',
         scope:false,
         require:['?^menuRef'],
         link: function($scope, $element, $attr, $ctrls){
-            var val = $attr.menuToggle;
+            var val = $attr.menuAdd;
             if( !val ) return;
             var $menu = $ctrls[0]? $ctrls[0].$menu : 
                     function(){ return MenuService.get(); };

@@ -22,10 +22,11 @@
         </div>
         
         
-        <div ng-controller="Menu1Div" menu-ref="" >
-            <button ng-click="$menu().toggleClass('open')">Toggle Menu</button>
-            <br/>
-            <button menu-toggle="open">Toggle Menu 2</button>
+        <div ng-controller="Menu1Div" menu-ref="" class="Menu1Div">
+            <button ng-click="$menu().toggleClass('open')">Toggle ".$menu()"</button>
+            <button menu-toggle="open">Toggle directive</button>
+            <button menu-remove="open">Remove directive</button>
+            <button menu-add="open">Add directive</button>
         </div>
         
         

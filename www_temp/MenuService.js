@@ -26,7 +26,7 @@ proto._check = function(val){
     if(val) this.attrs[val] = true;
     if(!this.manager) return false;
     return true;
-}
+};
 
 proto.addClass = function(val){ 
     if(!this._check(val))return; 
@@ -199,7 +199,7 @@ Module.directive('menuAdd',['$swipe','MenuService',
         scope:false,
         require:['?^menuRef'],
         link: function($scope, $element, $attr, $ctrls){
-            var val = $attr.menuToggle;
+            var val = $attr.menuAdd;
             if( !val ) return;
             var $menu = $ctrls[0]? $ctrls[0].$menu : 
                     function(){ return MenuService.get(); };
@@ -255,7 +255,7 @@ Module.directive('menuRef',['MenuService',
     };
 }]);
 
-Module.directive('menuAdd',['$swipe','MenuService',
+Module.directive('menuRemove',['$swipe','MenuService',
         function($swipe,MenuService){
     return {
         restrict: 'A',
@@ -263,7 +263,7 @@ Module.directive('menuAdd',['$swipe','MenuService',
         scope:false,
         require:['?^menuRef'],
         link: function($scope, $element, $attr, $ctrls){
-            var val = $attr.menuToggle;
+            var val = $attr.menuRemove;
             if( !val ) return;
             var $menu = $ctrls[0]? $ctrls[0].$menu : 
                     function(){ return MenuService.get(); };
