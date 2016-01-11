@@ -12,14 +12,14 @@ module.exports = function (grunt) {
     var p = {
         dev: 'src/',
         temp: 'www_temp/',
-        www: 'www/',
+        www: 'www/build/',
         dist: 'dist/'
     };
     var c = {
         dist: {
             concat: p.temp+'MenuService.js',
-            dist: p.dist+'MenuService.js',
-            build: p.www+'MenuService.js',
+            dist: p.dist+'MenuService.min.js',
+            build: p.www+'MenuService.min.js',
         },
         js: {
             concat: p.temp+'scripts.js',
@@ -38,6 +38,7 @@ module.exports = function (grunt) {
             temp:[p.temp]
         },
         concat:{
+            /*
             build:{
                 src:[
                     p.dev+ 'js/lib/angular/angular.min.js',
@@ -48,16 +49,6 @@ module.exports = function (grunt) {
                 ],
                 dest: c.js.concat
             },
-            dist:{
-                src:[
-                    p.dev+ 'build/prefix.txt',
-                    p.dev+ 'build/main.js',
-                    p.dev+ 'build/classes/**',
-                    p.dev+ 'build/**',
-                    p.dev+ 'build/sufix.txt',
-                ],
-                dest: c.dist.concat
-            },
             css:{
                 src:[
                     p.dev+ 'css/index.css',
@@ -65,14 +56,27 @@ module.exports = function (grunt) {
                 ],
                 dest: c.css.concat
             }
+            */
+            dist:{
+                src:[
+                    p.dev+ 'prefix.txt',
+                    p.dev+ 'main.js',
+                    p.dev+ 'classes/**',
+                    p.dev+ '**',
+                    p.dev+ 'sufix.txt',
+                ],
+                dest: c.dist.concat
+            },
         },
         cssmin:{
+            /*
             build:{
                 files:[{
                     src: [ c.css.concat ],
                     dest: c.css.build
                 }]
             }
+            */
         },
         uglify:{
             dist:{
@@ -83,6 +87,7 @@ module.exports = function (grunt) {
                     dest: c.dist.build
                 }]
             },
+            /*
             test:{
                 files: [{
                     //expand: true,
@@ -91,6 +96,7 @@ module.exports = function (grunt) {
                     dest: c.js.build
                 }]
             }
+            */
         },
         copy:{
             dist:{
@@ -99,6 +105,7 @@ module.exports = function (grunt) {
                     dest: c.dist.dist
                 }]
             },
+            /*
             build:{
                 files:[{
                     expand: true,
@@ -122,9 +129,10 @@ module.exports = function (grunt) {
                     dest: p.www
                 }]
             }
+            */
         }
     });
     
-    grunt.registerTask('default',['clean','concat','uglify','cssmin','copy']); // ,'clean:temp'
+    grunt.registerTask('default',['clean','concat','uglify','copy']); 
     
 };

@@ -10,7 +10,8 @@ Module.directive('menuRef',['MenuService',
             return {
                 pre: function($scope, $element, $attrs, $contr){
                     $contr.menuRef = $attrs.menuRef ;
-                    $scope.$menu = $contr.$menu = MenuService.get( $attrs.menuRef );
+                    $scope.$menu = $contr.$menu = 
+                            function(){ return MenuService.get( $attrs.menuRef ); };
                 }
             };
         },

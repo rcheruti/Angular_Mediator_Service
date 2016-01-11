@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Angular Menu Service</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="../../libs/angular/angular.min.js"></script>
+        <script src="../../libs/angular/angular-route.min.js"></script>
+        <script src="../../libs/angular/angular-touch.min.js"></script>
+        <script src="../../libs/angular/angular-animate.min.js"></script>
+        <script src="../../libs/angular-ui-router.min.js"></script>
+        <script src="../../build/MenuService.min.js"></script>
+        
+        
+        <link href="styles.css" rel="stylesheet" type="text/css" />
+        
+        
+        <script>
+            var Module = angular.module('Module',['Menu','ngAnimate']);
+            Module.controller('Menu1Div',[function(){
+                
+            }]);
+        </script>
+        
+    </head>
+    <body ng-app="Module" ng-strict-di="true">
+        
+        
+        <div id="menuNumero1" menu-element="menu1" menu-default="true">
+            <ul>
+                <li>Link 1</li>
+                <li>Página 2</li>
+                <li>Acessar 3</li>
+                <li>Ir para 4</li>
+                <li>Fale com 5</li>
+            </ul>
+        </div>
+        
+        
+        <div ng-controller="Menu1Div" menu-ref="" class="Menu1Div">
+            <button ng-click="$menu().toggleClass('open')">Toggle ".$menu()"</button>
+            <button menu-toggle="open">Toggle directive</button>
+            <button menu-remove="open">Remove directive</button>
+            <button menu-add="open">Add directive</button>
+        </div>
+        
+        
+    </body>
+</html>

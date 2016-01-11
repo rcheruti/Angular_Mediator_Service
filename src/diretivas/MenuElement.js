@@ -1,11 +1,9 @@
 Module.directive('menuElement',['MenuService',
             function(MenuService){
     return {
+        priority: 0,
         restrict: 'EA',
-        scope:{
-            'menuElement':'@',
-            'menuDefault':'@'
-        },
+        scope:false,
         compile: function(){
             return {
                 pre:function($scope, $element, $attr){

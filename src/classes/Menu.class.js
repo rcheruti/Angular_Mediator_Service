@@ -13,7 +13,7 @@ proto._check = function(val){
     if(val) this.attrs[val] = true;
     if(!this.manager) return false;
     return true;
-}
+};
 
 proto.addClass = function(val){ 
     if(!this._check(val))return; 

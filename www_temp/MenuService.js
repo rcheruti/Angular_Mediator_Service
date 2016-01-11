@@ -26,7 +26,7 @@ proto._check = function(val){
     if(val) this.attrs[val] = true;
     if(!this.manager) return false;
     return true;
-}
+};
 
 proto.addClass = function(val){ 
     if(!this._check(val))return; 
@@ -191,14 +191,32 @@ Module.service('MenuService',[function(){
 }]);
 
 
+Module.directive('menuAdd',['$swipe','MenuService',
+        function($swipe,MenuService){
+    return {
+        restrict: 'A',
+        priority: 10,
+        scope:false,
+        require:['?^menuRef'],
+        link: function($scope, $element, $attr, $ctrls){
+            var val = $attr.menuAdd;
+            if( !val ) return;
+            var $menu = $ctrls[0]? $ctrls[0].$menu : 
+                    function(){ return MenuService.get(); };
+            $swipe.bind($element, {
+                start: function(pos, ev){
+                    $menu().addClass( val );
+                }
+            });
+        }
+    };
+}]);
 Module.directive('menuElement',['MenuService',
             function(MenuService){
     return {
+        priority: 0,
         restrict: 'EA',
-        scope:{
-            'menuElement':'@',
-            'menuDefault':'@'
-        },
+        scope:false,
         compile: function(){
             return {
                 pre:function($scope, $element, $attr){
@@ -229,10 +247,32 @@ Module.directive('menuRef',['MenuService',
             return {
                 pre: function($scope, $element, $attrs, $contr){
                     $contr.menuRef = $attrs.menuRef ;
-                    $scope.$menu = $contr.$menu = MenuService.get( $attrs.menuRef );
+                    $scope.$menu = $contr.$menu = 
+                            function(){ return MenuService.get( $attrs.menuRef ); };
                 }
             };
         },
+    };
+}]);
+
+Module.directive('menuRemove',['$swipe','MenuService',
+        function($swipe,MenuService){
+    return {
+        restrict: 'A',
+        priority: 10,
+        scope:false,
+        require:['?^menuRef'],
+        link: function($scope, $element, $attr, $ctrls){
+            var val = $attr.menuRemove;
+            if( !val ) return;
+            var $menu = $ctrls[0]? $ctrls[0].$menu : 
+                    function(){ return MenuService.get(); };
+            $swipe.bind($element, {
+                start: function(pos, ev){
+                    $menu().removeClass( val );
+                }
+            });
+        }
     };
 }]);
 
@@ -246,10 +286,11 @@ Module.directive('menuToggle',['$swipe','MenuService',
         link: function($scope, $element, $attr, $ctrls){
             var val = $attr.menuToggle;
             if( !val ) return;
-            var $menu = $ctrls[0]? $ctrls[0].$menu : MenuService.get();
+            var $menu = $ctrls[0]? $ctrls[0].$menu : 
+                    function(){ return MenuService.get(); };
             $swipe.bind($element, {
                 start: function(pos, ev){
-                    $menu.toggleClass( val );
+                    $menu().toggleClass( val );
                 }
             });
         }
