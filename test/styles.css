@@ -1,0 +1,117 @@
+
+/* ============  global styles  ============= */
+*{
+  font-family: Arial;
+  font-size: 1em;
+}
+
+/* ============  Menu styles  ============= */
+.menu{
+  position:absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  box-shadow: 0px 2px 3px #ccc;
+  border-bottom: 1px solid #bbb;
+  z-index: 100;
+  background: #eee;
+  -webkit-transform: translate3d(0,-100%,0);
+  transform: translate3d(0,-100%,0);
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+.menu-open-paginas .menu{
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+.menu .menuAba{
+  position: absolute;
+  bottom: 1px;
+  border: 1px solid #bbb;
+  border-top: none;
+  background: #eee;
+  box-shadow: 0px 1px 2px #ccc;
+  border-radius: 0 0 50% 50%;
+  height: 1.5em;
+  width: 25%;
+  text-align: center;
+  padding: 0.5em;
+  -webkit-transform: translate3d(150%,100%,0);
+  transform: translate3d(150%,100%,0);
+}
+.menu .menuAba .setaBaixo{
+  border-width: .5em ;
+  -webkit-transition: all .2s linear;
+  transition: all .2s linear;
+}
+.menu-open-paginas .menu .menuAba .setaBaixo{
+  -webkit-transform: rotate3d(0,0,1, -180deg) translate3d(0,50%,0);
+  transform: rotate3d(0,0,1, -180deg) translate3d(0,50%,0);
+}
+.menu a{
+  display: inline-block;
+  padding: .5em;
+    
+}
+.menu a:hover{
+  background: lightyellow;
+}
+.menu a.active{
+  background: lightcyan;
+}
+
+/* ============  content styles  ============= */
+.conteudo{
+    height:100%;
+    position:absolute;
+    width: 100%;
+    padding-top: 1.5em;
+}
+.conteudo > *{
+    position:relative;
+    height:100%;
+}
+
+/* ============  general styles  ============= */
+.description{
+    padding: 0.4em 1.2em ;
+    width: 100%;
+    text-align: left;
+}
+.clickstart{
+    border-color: darkgreen;
+    box-shadow: 0px 0px 3px darkgreen inset;
+}
+.clickend{
+    
+}
+input{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px 8px;
+    display: inline-block;
+}
+button{
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    border-radius: 4px;
+    margin: .2em .1em;
+    background: #eee;
+    box-shadow: 0px 2px 2px #bbb, 0px 2px 2px #fff inset;
+    text-shadow: 1px 2px 1px #fff;
+    color: #666;
+}
+/* button:active,  */
+button.ng-click-active{
+    box-shadow: 0px 1px 2px #bbb inset, 0px -3px 3px #fff inset;
+    padding: 0.6em .5em .4em;
+}
+
+.setaBaixo{
+  border: 1em solid transparent;
+  border-top-color: #444;
+  display: inline-block;
+}
+
+
+

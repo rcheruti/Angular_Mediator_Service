@@ -1,8 +1,10 @@
 
 var Module = angular.module('Menu',['ngTouch']);
 
-Module.run(['$injector',function($injector){
+Module.run(['$rootElement','$timeout',
+      function($rootElement,$timeout){
     
-    MenuManager.element = $injector.get('$rootElement');
+    MenuManager.element = $rootElement;
+    MenuManager.$timeout = $timeout;
         
 }]);

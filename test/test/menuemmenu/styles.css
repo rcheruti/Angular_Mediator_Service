@@ -1,0 +1,45 @@
+
+.menuemmenu{
+  
+}
+.menuemmenu .menus{
+  position: relative;
+  margin: .1em 2em;
+  padding: .5em;
+  width: auto;
+  background: #eee;
+  height: 6em;
+  
+  opacity: 1;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+.menuemmenu .menus > *{
+  position: absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  min-width: 8em;
+}
+.menuemmenu .menu1{
+  background: lightskyblue;
+}
+
+.menuemmenu .menu2{
+  background: lightsalmon;
+}
+
+/*  ==================  Menus  ==================  */
+.menu-close-menuemmenu .menuemmenu .menus{
+  opacity: 0;
+}
+
+.menu-close-menuemmenu-2 .menuemmenu .menu2{
+  -webkit-transform: translate3d(-100%,0,0);
+  transform: translate3d(-100%,0,0);
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+
+

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Angular Menu Service</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+                
+        <link href="styles.css" rel="stylesheet" type="text/css" />
+        <script src="scripts.js"></script>
+        <script src="build/MenuService.js"></script>
+        
+        
+    </head>
+    <body ng-app="Module" ng-strict-di="true">
+      <script type="text/ng-template" id="/">
+        <div>Home</div>
+      </script>
+      
+      <div class="menu" ng-controller="Menu" menu="paginas" menu-default="true">
+        <div class="lista">
+          <a ng-repeat="x in menus" ui-sref="{{x.name}}" ui-sref-active="active">{{ x.desc }}</a>
+        </div>
+        <div style="clear:both;"></div>
+        <div class="menuAba" menu-ref="paginas" menu-toggle="open">
+          <div class="setaBaixo"></div>
+        </div>
+      </div>
+      
+      <div ui-view="conteudo" class="conteudo">
+        
+      </div>
+      
+      
+    </body>
+</html>

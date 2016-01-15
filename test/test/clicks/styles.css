@@ -1,0 +1,27 @@
+
+.clicks{
+    
+}
+.clicks .botoes{
+  
+}
+.clicks .botoes button{
+  display: block;
+}
+
+
+.clicks #menuNumero1{
+    padding: 5px;
+    border: 1px solid #ccc;
+    position: absolute;
+    right: 20px;
+    top:20px;
+    width: 160px;
+    transform: translate3d(100%,0,0);
+    transition: transform 0.4s ease;
+}
+
+
+.menu-open-menu1 .clicks #menuNumero1{
+    transform: translate3d(0,0,0);
+}

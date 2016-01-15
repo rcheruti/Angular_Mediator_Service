@@ -1,0 +1,213 @@
+*{
+  margin:0;
+  padding:0;
+  border:none; 
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+}
+html,body{
+  width:100%;
+  height:100%;
+  font-size: 12px;
+  overflow-x: hidden;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* ============  global styles  ============= */
+*{
+  font-family: Arial;
+  font-size: 1em;
+}
+
+/* ============  Menu styles  ============= */
+.menu{
+  position:absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  box-shadow: 0px 2px 3px #ccc;
+  border-bottom: 1px solid #bbb;
+  z-index: 100;
+  background: #eee;
+  -webkit-transform: translate3d(0,-100%,0);
+  transform: translate3d(0,-100%,0);
+  -webkit-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+}
+.menu-open-paginas .menu{
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+.menu .menuAba{
+  position: absolute;
+  bottom: 1px;
+  border: 1px solid #bbb;
+  border-top: none;
+  background: #eee;
+  box-shadow: 0px 1px 2px #ccc;
+  border-radius: 0 0 50% 50%;
+  height: 1.5em;
+  width: 25%;
+  text-align: center;
+  padding: 0.5em;
+  -webkit-transform: translate3d(150%,100%,0);
+  transform: translate3d(150%,100%,0);
+}
+.menu .menuAba .setaBaixo{
+  border-width: .5em ;
+  -webkit-transition: all .2s linear;
+  transition: all .2s linear;
+}
+.menu-open-paginas .menu .menuAba .setaBaixo{
+  -webkit-transform: rotate3d(0,0,1, -180deg) translate3d(0,50%,0);
+  transform: rotate3d(0,0,1, -180deg) translate3d(0,50%,0);
+}
+.menu a{
+  display: inline-block;
+  padding: .5em;
+    
+}
+.menu a:hover{
+  background: lightyellow;
+}
+.menu a.active{
+  background: lightcyan;
+}
+
+/* ============  content styles  ============= */
+.conteudo{
+    height:100%;
+    position:absolute;
+    width: 100%;
+    padding-top: 1.5em;
+}
+.conteudo > *{
+    position:relative;
+    height:100%;
+}
+
+/* ============  general styles  ============= */
+.description{
+    padding: 0.4em 1.2em ;
+    width: 100%;
+    text-align: left;
+}
+.clickstart{
+    border-color: darkgreen;
+    box-shadow: 0px 0px 3px darkgreen inset;
+}
+.clickend{
+    
+}
+input{
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px 8px;
+    display: inline-block;
+}
+button{
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    border-radius: 4px;
+    margin: .2em .1em;
+    background: #eee;
+    box-shadow: 0px 2px 2px #bbb, 0px 2px 2px #fff inset;
+    text-shadow: 1px 2px 1px #fff;
+    color: #666;
+}
+/* button:active,  */
+button.ng-click-active{
+    box-shadow: 0px 1px 2px #bbb inset, 0px -3px 3px #fff inset;
+    padding: 0.6em .5em .4em;
+}
+
+.setaBaixo{
+  border: 1em solid transparent;
+  border-top-color: #444;
+  display: inline-block;
+}
+
+
+
+
+
+.clicks{
+    
+}
+.clicks .botoes{
+  
+}
+.clicks .botoes button{
+  display: block;
+}
+
+
+.clicks #menuNumero1{
+    padding: 5px;
+    border: 1px solid #ccc;
+    position: absolute;
+    right: 20px;
+    top:20px;
+    width: 160px;
+    transform: translate3d(100%,0,0);
+    transition: transform 0.4s ease;
+}
+
+
+.menu-open-menu1 .clicks #menuNumero1{
+    transform: translate3d(0,0,0);
+}
+
+.menuemmenu{
+  
+}
+.menuemmenu .menus{
+  position: relative;
+  margin: .1em 2em;
+  padding: .5em;
+  width: auto;
+  background: #eee;
+  height: 6em;
+  
+  opacity: 1;
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+.menuemmenu .menus > *{
+  position: absolute;
+  top:0;
+  left:0;
+  height: 100%;
+  min-width: 8em;
+}
+.menuemmenu .menu1{
+  background: lightskyblue;
+}
+
+.menuemmenu .menu2{
+  background: lightsalmon;
+}
+
+/*  ==================  Menus  ==================  */
+.menu-close-menuemmenu .menuemmenu .menus{
+  opacity: 0;
+}
+
+.menu-close-menuemmenu-2 .menuemmenu .menu2{
+  -webkit-transform: translate3d(-100%,0,0);
+  transform: translate3d(-100%,0,0);
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+
+
