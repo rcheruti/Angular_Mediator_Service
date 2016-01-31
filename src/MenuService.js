@@ -23,9 +23,10 @@ Module.provider('MenuService',[function(){
         if( !menuName ) return menuHash[defaultMenuName];
         return menuHash[menuName];
       },
-      put: function(menuName, menuEl){
+      put: function(menuName, menuEl, menuManag){
         if( !menuName || !menuEl ) return ref;
-        var menu = menuHash[menuName] = new Menu(menuName, menuEl, MenuManager);
+        if( !menuManag ) menuManag = RootMenuManager ;
+        var menu = menuHash[menuName] = new Menu(menuName, menuEl, menuManag);
         observerBox.dispatch( 'put', observerBox.event('put',{menu:menu}) );
         return ref;
       },

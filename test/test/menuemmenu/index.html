@@ -4,19 +4,19 @@
     Test interaction between menus inside each other.
     <br/><br/>
     When one button (element) need to make operations on two diferent menus
-    the maskup directives aren't suficient. We need to use scripts to make it.
+    the markup directives aren't suficient. We need to use scripts to make it.
     <br/><br/>
-    For this reason, the "menu-ref" directive create a new scope and set
-    the ".$menu()" attribute, that is a function, in this scope.
+    For this reason, the "menu-service" directive create a new scope and set
+    the ".$menu" attribute, that is the "MenuService" reference, in this scope.
     <br/><br/>
     
   </div>
   
   <div style="text-align: center;">
             <!-- menu-toggle="close" -->
-    <button menu-ref="Menuemmenu" 
-            ng-click="!$menu().toggle('close').has('close') 
-                      && $menu('Menuemmenu-2').remove('close')">Hide menu box</button>
+    <button menu-service="" 
+            ng-click="!$menu.get('Menuemmenu').toggle('close').has('close') 
+                      && $menu.get('Menuemmenu-2').remove('close')">Hide menu box</button>
   </div>
   
   <div class="menus" menu="Menuemmenu">

@@ -10,13 +10,13 @@ function PrefixedEvent(element, type, callback) {
 }
 */
 
-function MenuManagerConst(){
-    this.element = null;
-    this.$timeout = null;
+function MenuManager( el, $t ){
+    this.element = el;
+    this.$timeout = $t;
 }
 
 //var proto = MenuManagerConst.prototype;
 
-var MenuManager = new MenuManagerConst();
+var RootMenuManager = new MenuManager();
 
 

@@ -4,7 +4,7 @@ Module.directive('menu', ['MenuService',
       restrict: 'EA',
       scope: false,
       controller: function () {},
-      require: ['menu','?^^menuRef'],
+      require: ['menu','?^^menuRef','?^menuManager'],
       compile: function () {
         return {
           pre: function ($scope, $element, $attr, $ctrls) {
@@ -13,7 +13,7 @@ Module.directive('menu', ['MenuService',
               throw 'You need to define a name for the menu '
                 + 'with the "menu" attribute. This is required!';
             var menuDefault = ($attr.menuDefault || '').toLowerCase() === 'true' ? true : false;
-            MenuService.put(menuName, $element);
+            MenuService.put(menuName, $element, $ctrls[2]? $ctrls[2].manager : null );
             if (menuDefault)
               MenuService.setDefault(menuName);
             $ctrls[0].$menu = function () {

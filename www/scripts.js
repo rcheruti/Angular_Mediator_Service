@@ -427,6 +427,12 @@ Module.controller('hierarquia',[function(){
     
     
 }]);
+registerUrl('manager');
+Module.controller('manager',[function(){
+    
+    
+    
+}]);
 registerUrl('menuemmenu',null,'Menu em menu');
 Module.controller('Menuemmenu',[function(){
     

@@ -1,0 +1,21 @@
+<div class="manager" ng-controller="manager">
+  
+  <div class="description">
+    This tests if "menuManager" are doing your job.
+  </div>
+  
+  <div class="box">
+    Box 1, outside the manager
+    <div class="box" menu-manager="">
+      Box 2, the manager
+      <div class="box">
+        Box 3, inside the manager
+        <div menu="manager-menu1">
+          Menu1
+          <button menu-toggle="open">Toggle Box 3 background</button>
+        </div> 
+      </div>
+    </div>
+  </div>
+  
+</div>

@@ -7,8 +7,8 @@ var Module = angular.module('Menu',['ngTouch']);
 Module.run(['$rootElement','$timeout',
       function($rootElement,$timeout){
     
-    MenuManager.element = $rootElement;
-    MenuManager.$timeout = $timeout;
+    RootMenuManager.element = $rootElement;
+    RootMenuManager.$timeout = $timeout;
         
 }]);
 
@@ -100,14 +100,14 @@ function PrefixedEvent(element, type, callback) {
 }
 */
 
-function MenuManagerConst(){
-    this.element = null;
-    this.$timeout = null;
+function MenuManager( el, $t ){
+    this.element = el;
+    this.$timeout = $t;
 }
 
 //var proto = MenuManagerConst.prototype;
 
-var MenuManager = new MenuManagerConst();
+var RootMenuManager = new MenuManager();
 
 
 
@@ -217,9 +217,10 @@ Module.provider('MenuService',[function(){
         if( !menuName ) return menuHash[defaultMenuName];
         return menuHash[menuName];
       },
-      put: function(menuName, menuEl){
+      put: function(menuName, menuEl, menuManag){
         if( !menuName || !menuEl ) return ref;
-        var menu = menuHash[menuName] = new Menu(menuName, menuEl, MenuManager);
+        if( !menuManag ) menuManag = RootMenuManager ;
+        var menu = menuHash[menuName] = new Menu(menuName, menuEl, menuManag);
         observerBox.dispatch( 'put', observerBox.event('put',{menu:menu}) );
         return ref;
       },
@@ -259,7 +260,7 @@ Module.directive('menu', ['MenuService',
       restrict: 'EA',
       scope: false,
       controller: function () {},
-      require: ['menu','?^^menuRef'],
+      require: ['menu','?^^menuRef','?^menuManager'],
       compile: function () {
         return {
           pre: function ($scope, $element, $attr, $ctrls) {
@@ -268,7 +269,7 @@ Module.directive('menu', ['MenuService',
               throw 'You need to define a name for the menu '
                 + 'with the "menu" attribute. This is required!';
             var menuDefault = ($attr.menuDefault || '').toLowerCase() === 'true' ? true : false;
-            MenuService.put(menuName, $element);
+            MenuService.put(menuName, $element, $ctrls[2]? $ctrls[2].manager : null );
             if (menuDefault)
               MenuService.setDefault(menuName);
             $ctrls[0].$menu = function () {
@@ -315,15 +316,33 @@ Module.directive('menuAction',['$parse','MenuService','$swipe',
     }
   };
 }]);
+Module.directive('menuManager',['$timeout',function($timeout){
+  
+  return {
+    restrict: 'EA',
+    priority: 0,
+    controller: function(){},
+    compile: function(){
+      return {
+        pre: function($scope, $element, $attrs, $ctrls){
+          $ctrls.manager = new MenuManager( $element , $timeout );
+        }
+      };
+    }
+    
+  };
+  
+}]);
+
 Module.directive('menuRef',['MenuService',
     function(MenuService){
   return {
-    scope:true,
+    scope:false,
     controller:function(){},
     compile:function($element, $attrs){
       return {
         pre: function($scope, $element, $attrs, $contr){
-          $scope.$menu = $contr.$menu = 
+          $contr.$menu = 
             function(val){ return MenuService.get( val || $attrs.menuRef ); };
         }
       };
@@ -331,6 +350,21 @@ Module.directive('menuRef',['MenuService',
   };
 }]);
 
+Module.directive('menuService',['MenuService',function(MenuService){
+  
+  return {
+    restrict: 'EA',
+    scope: true,
+    compile: function(){
+      return {
+        pre: function($scope, $element, $attrs, $ctrls){
+          $scope.$menu = MenuService;
+        }
+      };
+    }
+  };
+  
+}]);
 
 
 createDirective('menuAdd', 'add');
