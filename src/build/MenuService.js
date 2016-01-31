@@ -41,7 +41,7 @@ Module.service('MenuService',[function(){
         },
         off: function(eventName, func){
             observerBox.off( eventName, func );
-        },
+        }
     };
     
     return ref;

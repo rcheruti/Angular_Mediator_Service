@@ -28,19 +28,19 @@ proto._check = function(val){
     return true;
 };
 
-proto.addClass = function(val){ 
+proto.add = proto.addClass = function(val){ 
     if(!this._check(val))return; 
     this.manager.element.addClass( this._valCss(val) ); 
 };
-proto.removeClass = function(val){ 
+proto.remove = proto.removeClass = function(val){ 
     if(!this._check())return; 
     this.manager.element.removeClass( this._valCss(val) );
 };
-proto.toggleClass = function(val){ 
+proto.toggle = proto.toggleClass = function(val){ 
     if(!this._check(val))return; 
     this.manager.element.toggleClass( this._valCss(val) ); 
 };
-proto.removeClassAll = function(){
+proto.removeAll = proto.removeClassAll = function(){
     var arr = this.attrs;
     for(var g in arr){
         this.removeClass( arr[g] );
@@ -54,7 +54,7 @@ function MenuManagerConst(){
     this.element = null;
 }
 
-var proto = MenuManagerConst.prototype;
+//var proto = MenuManagerConst.prototype;
 
 var MenuManager = new MenuManagerConst();
 
@@ -184,33 +184,13 @@ Module.service('MenuService',[function(){
         },
         off: function(eventName, func){
             observerBox.off( eventName, func );
-        },
+        }
     };
     
     return ref;
 }]);
 
 
-Module.directive('menuAdd',['$swipe','MenuService',
-        function($swipe,MenuService){
-    return {
-        restrict: 'A',
-        priority: 10,
-        scope:false,
-        require:['?^menuRef'],
-        link: function($scope, $element, $attr, $ctrls){
-            var val = $attr.menuAdd;
-            if( !val ) return;
-            var $menu = $ctrls[0]? $ctrls[0].$menu : 
-                    function(){ return MenuService.get(); };
-            $swipe.bind($element, {
-                start: function(pos, ev){
-                    $menu().addClass( val );
-                }
-            });
-        }
-    };
-}]);
 Module.directive('menuElement',['MenuService',
             function(MenuService){
     return {
@@ -255,47 +235,41 @@ Module.directive('menuRef',['MenuService',
     };
 }]);
 
-Module.directive('menuRemove',['$swipe','MenuService',
-        function($swipe,MenuService){
-    return {
-        restrict: 'A',
-        priority: 10,
-        scope:false,
-        require:['?^menuRef'],
-        link: function($scope, $element, $attr, $ctrls){
-            var val = $attr.menuRemove;
-            if( !val ) return;
-            var $menu = $ctrls[0]? $ctrls[0].$menu : 
-                    function(){ return MenuService.get(); };
-            $swipe.bind($element, {
-                start: function(pos, ev){
-                    $menu().removeClass( val );
-                }
-            });
-        }
-    };
-}]);
 
-Module.directive('menuToggle',['$swipe','MenuService',
-        function($swipe,MenuService){
-    return {
+var list = [
+  ['menuAdd','add'],
+  ['menuRemove','remove'],
+  ['menuToggle','toggle']
+];
+for( var i = 0; i < list.length; i++ ){
+  _createDirective( list[i][0], list[i][1] );
+}
+
+function _createDirective(name, method) {
+  Module.directive( name , ['$swipe', 'MenuService',
+    function ($swipe, MenuService) {
+      return {
         restrict: 'A',
         priority: 10,
-        scope:false,
-        require:['?^menuRef'],
-        link: function($scope, $element, $attr, $ctrls){
-            var val = $attr.menuToggle;
-            if( !val ) return;
-            var $menu = $ctrls[0]? $ctrls[0].$menu : 
-                    function(){ return MenuService.get(); };
-            $swipe.bind($element, {
-                start: function(pos, ev){
-                    $menu().toggleClass( val );
-                }
-            });
+        scope: false,
+        require: ['?^menuRef'],
+        link: function ($scope, $element, $attr, $ctrls) {
+          var val = $attr[name];
+          if (!val) return;
+          var $menu = $ctrls[0] ? $ctrls[0].$menu :
+            function () { return MenuService.get(); };
+          $swipe.bind($element, {
+            start: function (pos, ev) {
+              $menu()[method](val);
+            }
+          });
         }
-    };
-}]);
+      };
+    }]);
+}
+
+
+
 
 
 })(window);

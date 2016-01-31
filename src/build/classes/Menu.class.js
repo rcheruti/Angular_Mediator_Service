@@ -15,19 +15,19 @@ proto._check = function(val){
     return true;
 };
 
-proto.addClass = function(val){ 
+proto.add = proto.addClass = function(val){ 
     if(!this._check(val))return; 
     this.manager.element.addClass( this._valCss(val) ); 
 };
-proto.removeClass = function(val){ 
+proto.remove = proto.removeClass = function(val){ 
     if(!this._check())return; 
     this.manager.element.removeClass( this._valCss(val) );
 };
-proto.toggleClass = function(val){ 
+proto.toggle = proto.toggleClass = function(val){ 
     if(!this._check(val))return; 
     this.manager.element.toggleClass( this._valCss(val) ); 
 };
-proto.removeClassAll = function(){
+proto.removeAll = proto.removeClassAll = function(){
     var arr = this.attrs;
     for(var g in arr){
         this.removeClass( arr[g] );
