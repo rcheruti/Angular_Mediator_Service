@@ -1,0 +1,29 @@
+<div class="hierarquia" ng-controller="hierarquia">
+  
+  <div class="description">
+    Test if the directives is getting correct the first appearence 
+    of "menu" or "menuRef" directives in the hierarchy.
+  </div>
+  
+  
+  <div class="box" menu-ref="hierarquia-menu1">
+    box
+    <div class="box menu2" menu="hierarquia-menu2">
+      menu2
+      <button menu-toggle="open">Toggle menu2</button>
+    </div>
+  </div>
+  
+  <div class="box menu1" menu="hierarquia-menu1">
+    menu1
+  </div>
+  
+  <div class="box" menu-ref="hierarquia-menu1">
+    box
+    <div class="box menu3" menu="hierarquia-menu3" menu-ref="hierarquia-menu1">
+      menu4
+      <button menu-toggle="open">Toggle menu1</button>
+    </div>
+  </div>
+  
+</div>

@@ -1,0 +1,35 @@
+
+.hierarquia{
+    
+}
+.hierarquia .box{
+    background: lightskyblue;
+    padding: 10px;
+}
+
+.hierarquia .menu1, 
+.hierarquia .menu2, 
+.hierarquia .menu3{
+    -webkit-transition: all .3s ease-out; 
+    transition: all .3s ease-out; 
+}
+.hierarquia .menu1{
+    background: lightgoldenrodyellow;
+    height: 100px;
+}
+.hierarquia .menu2{
+    background: lightgreen;
+    height: 100px;
+}
+.hierarquia .menu3{
+    background: lightcyan;
+    height: 100px;
+}
+
+.menu-open-hierarquia-menu1 .menu1,
+.menu-open-hierarquia-menu2 .menu2,
+.menu-open-hierarquia-menu3 .menu3{
+    -webkit-transform: translate3d(100px,0,0); 
+    transform: translate3d(100px,0,0); 
+}
+    

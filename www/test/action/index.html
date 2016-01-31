@@ -1,0 +1,19 @@
+<div class="action" ng-controller="action">
+  
+  <div class="description">
+    This tests if "menuAction" are doing your job.
+  </div>
+  
+  <div class="box menu1" menu="action-menu1">Menu1</div>
+  <div class="box menu2" menu="action-menu2">Menu2</div>
+  <div class="box menu3" menu="action-menu3">Menu3</div>
+  
+  <div class="buttons">
+    <button menu-action="{ 'action-menu3':{ toggle:'open' } }">Toggle menu 3</button>
+    <button menu-action="{ 'action-menu1':{ add:'open' }, 'action-menu2':{ add:'open' } }">Add menu 1 and 2</button>
+    <button menu-action="{ 'action-menu1':{ remove:'open' }, 'action-menu2':{ remove:'open' } }">remove menu 1 and 2</button>
+    <button menu-action="{ 'action-menu1':{ toggle:'open' }, 'action-menu3':{ toggle:'open' } }">Toggle menu 1 and 3</button>
+    <button menu-action="{ 'action-menu1':{ toggle:'open' }, 'action-menu2':{ toggle:'open' }, 'action-menu3':{ toggle:'open' } }">Toggle menu 1, 2 and 3</button>
+  </div>
+  
+</div>

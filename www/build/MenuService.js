@@ -253,31 +253,68 @@ Module.provider('MenuService',[function(){
 }]);
 
 
-Module.directive('menu',['MenuService',
-            function(MenuService){
+Module.directive('menu', ['MenuService',
+  function (MenuService) {
     return {
-        restrict: 'EA',
-        scope:false,
-        controller: function(){},
-        compile: function(){
-            return {
-                pre:function($scope, $element, $attr, $ctrl){
-                    var menuName = $attr.menu ;
-                    if(!menuName) throw 'You need to define a name for the menu '
-                        +'with the "menu" attribute. This is required!';
-                    var menuDefault = ($attr.menuDefault || '').toLowerCase() === 'true'? true : false ;
-                    MenuService.put(menuName, $element);
-                    if( menuDefault ) MenuService.setDefault( menuName );
-                    $ctrl.$menu = function(){ return MenuService.get( menuName ); };
-                    $scope.$on('$destroy', function(){
-                        MenuService.remove(menuName);
-                    });
-                }
+      restrict: 'EA',
+      scope: false,
+      controller: function () {},
+      require: ['menu','?^^menuRef'],
+      compile: function () {
+        return {
+          pre: function ($scope, $element, $attr, $ctrls) {
+            var menuName = $attr.menu;
+            if (!menuName)
+              throw 'You need to define a name for the menu '
+                + 'with the "menu" attribute. This is required!';
+            var menuDefault = ($attr.menuDefault || '').toLowerCase() === 'true' ? true : false;
+            MenuService.put(menuName, $element);
+            if (menuDefault)
+              MenuService.setDefault(menuName);
+            $ctrls[0].$menu = function () {
+              return MenuService.get(menuName);
             };
-        }
+            $ctrls[0].parentRef = $ctrls[1];
+            $scope.$on('$destroy', function () {
+              MenuService.remove(menuName);
+            });
+          }
+        };
+      }
     };
-}]);
+  }]);
 
+Module.directive('menuAction',['$parse','MenuService','$swipe',
+    function($parse,MenuService,$swipe){
+  return {
+    restrict: 'A',
+    priority: 10,
+    scope: false,
+    /*
+     * The object that is spected is in the form:
+     * { MenuName:{ MenuAction:'AttrName' } }
+     * where:
+     *  - MenuName: the of the menu used in the "menu" directive
+     *  - MenuAction: name o the method to call in the menu object. Ex.: 'toggle', 'add'...
+     *  - AttrName: name of the class to pass to the method. Ex.: 'open'...
+     */
+    link: function($scope, $element, $attrs, $ctrls){
+      var obj = $parse( $attrs.menuAction )();
+      if( !obj ) return;
+      $swipe.bind( $element, {
+        start: function(pos, ev){
+          for(var menuName in obj){
+            var menuObj = obj[menuName];
+            for( var menuAction in menuObj ){
+              var attrName = menuObj[menuAction];
+              MenuService.get( menuName )[ menuAction ]( attrName );
+            }
+          }
+        }
+      });
+    }
+  };
+}]);
 Module.directive('menuRef',['MenuService',
     function(MenuService){
   return {
@@ -296,30 +333,40 @@ Module.directive('menuRef',['MenuService',
 
 
 
-createDirective('menuAdd','add');
-createDirective('menuRemove','remove');
-createDirective('menuToggle','toggle');
+createDirective('menuAdd', 'add');
+createDirective('menuRemove', 'remove');
+createDirective('menuToggle', 'toggle');
 
-function createDirective(name,method){
-  Module.directive(name,['$swipe','MenuService',
-          function($swipe,MenuService){
+function createDirective(name, method) {
+  Module.directive(name, ['$swipe', 'MenuService',
+    function ($swipe, MenuService) {
       return {
-          require:['?^menuRef','?^menu'],
-          link: function($scope, $element, $attr, $ctrls){
-              var val = $attr[name];
-              if( !val ) return;
-              var $menu = $ctrls[0]? $ctrls[0].$menu : 
-                    ( $ctrls[1]? $ctrls[1].$menu :
-                      function(){ return MenuService.get(); }
-                    );
-              $swipe.bind($element, {
-                  start: function(pos, ev){
-                      $menu()[method]( val );
-                  }
-              });
+        require: ['?^menuRef', '?^menu'],
+        link: function ($scope, $element, $attr, $ctrls) {
+          var val = $attr[name];
+          if (!val)
+            return;
+          var $menu;
+          if( $ctrls[0] && $ctrls[1] ){
+            if( $ctrls[1].parentRef === $ctrls[0] ) $menu = $ctrls[1].$menu ;
+            else $menu = $ctrls[0].$menu ;
+          }else{
+            $menu = $ctrls[0] ? $ctrls[0].$menu :
+              ($ctrls[1] ? $ctrls[1].$menu :
+                function () {
+                  return MenuService.get();
+                }
+              );
           }
+          
+          $swipe.bind($element, {
+            start: function (pos, ev) {
+              $menu()[method](val);
+            }
+          });
+        }
       };
-  }]);
+    }]);
 }
 
 

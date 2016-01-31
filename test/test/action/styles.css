@@ -1,0 +1,19 @@
+
+.action{
+    
+}
+.action .box{
+    padding: 10px;
+    margin: 5px;
+    background: lightblue;
+    min-height: 20px;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+.menu-open-action-menu1 .action .menu1,
+.menu-open-action-menu2 .action .menu2,
+.menu-open-action-menu3 .action .menu3{
+    -webkit-transform: translate3d(100px,0,0);
+    transform: translate3d(100px,0,0);
+}
