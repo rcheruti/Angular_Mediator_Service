@@ -1,0 +1,25 @@
+<div class="clicks" ng-controller="Clicks">
+  
+  <div class="description">
+    
+  </div>
+  
+  <div id="menuNumero1" menu="menu1">
+    <ul>
+      <li>Link 1</li>
+      <li>Página 2</li>
+      <li>Acessar 3</li>
+      <li>Ir para 4</li>
+      <li>Fale com 5</li>
+    </ul>
+  </div>
+
+  <div menu-ref="menu1" class="botoes">
+    <button ng-click="$menu().toggle('open')">Toggle ".$menu()"</button>
+    <button menu-toggle="open">Toggle directive</button>
+    <button menu-remove="open">Remove directive</button>
+    <button menu-add="open">Add directive</button>
+  </div>
+
+  
+</div>

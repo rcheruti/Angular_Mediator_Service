@@ -13,13 +13,17 @@ module.exports = function (grunt) {
         dev: 'src/',
         temp: 'www_temp/',
         www: 'www/',
+        www_build: 'www/build/',
+        test: 'test/',
+        test_build: 'test/build/',
         dist: 'dist/'
     };
     var c = {
         dist: {
             concat: p.temp+'MenuService.js',
-            dist: p.dist+'MenuService.js',
-            build: p.www+'MenuService.js',
+            dist: p.dist+'MenuService.min.js',
+            build: p.test_build+'MenuService.min.js',
+            build_concat: p.test_build+'MenuService.js'
         },
         js: {
             concat: p.temp+'scripts.js',
@@ -34,44 +38,41 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         clean:{
-            build:[p.www,p.dist],
+            build:[p.www,p.dist,p.test_build],
             temp:[p.temp]
         },
         concat:{
-            build:{
-                src:[
-                    p.dev+ 'js/lib/angular/angular.min.js',
-                    p.dev+ 'js/lib/angular/*',
-                    p.dev+ 'js/lib/*',
-                    p.dev+ 'js/config.js',
-                    p.dev+ 'js/**',
-                ],
-                dest: c.js.concat
-            },
             dist:{
                 src:[
-                    p.dev+ 'build/prefix.txt',
-                    p.dev+ 'build/main.js',
-                    p.dev+ 'build/classes/**',
-                    p.dev+ 'build/**',
-                    p.dev+ 'build/sufix.txt',
+                  p.dev+ 'prefix.txt',
+                  p.dev+ 'main.js',
+                  p.dev+ 'classes/**',
+                  p.dev+ '**',
+                  p.dev+ 'sufix.txt'
                 ],
                 dest: c.dist.concat
             },
             css:{
-                src:[
-                    p.dev+ 'css/index.css',
-                    p.dev+ 'css/**.css',
-                ],
-                dest: c.css.concat
-            }
-        },
-        cssmin:{
-            build:{
-                files:[{
-                    src: [ c.css.concat ],
-                    dest: c.css.build
-                }]
+              src:[
+                 p.test+ 'index.css',
+                 p.test+ 'styles.css',
+                 p.test+ '**.css',
+                 p.test+ 'test/**/*.css'
+              ],
+              dest: c.css.build
+            },
+            js:{
+              src:[
+                p.test+ 'libs/angular/angular.min.js',
+                p.test+ 'libs/angular/**',
+                p.test+ 'libs/**',
+                p.test+ 'libs/angular-touch.min.js',
+                //p.test+ 'libs/ngTouch.min.js',
+                p.test+ 'config.js',
+                p.test+ '**.js',
+                p.test+ 'test/**/*.js'
+              ],
+              dest: c.js.build
             }
         },
         uglify:{
@@ -82,14 +83,6 @@ module.exports = function (grunt) {
                     src:[ c.dist.concat ],
                     dest: c.dist.build
                 }]
-            },
-            test:{
-                files: [{
-                    //expand: true,
-                    //cwd: p.dev+'js',
-                    src:[ c.js.concat ],
-                    dest: c.js.build
-                }]
             }
         },
         copy:{
@@ -97,34 +90,24 @@ module.exports = function (grunt) {
                 files:[{
                     src: c.dist.build,
                     dest: c.dist.dist
-                }]
-            },
-            build:{
-                files:[{
-                    expand: true,
-                    cwd: p.dev,
-                    src: 'img/**',
-                    dest: p.www
+                },{
+                    src: c.dist.concat,
+                    dest: c.dist.build_concat
                 },{
                     expand: true,
-                    cwd: p.dev,
-                    src: p.dev+'svg/**',
-                    dest: p.www
+                    cwd: p.temp,
+                    src: '*.js',
+                    dest: p.www_build
                 },{
                     expand: true,
-                    cwd: p.dev,
-                    src: 'paginas/**',
-                    dest: p.www
-                },{
-                    expand: true,
-                    cwd: p.dev,
-                    src: '**.html',
-                    dest: p.www
+                    cwd: p.test,
+                    src: ['img/**','**.html','test/**/*.html'],
+                    dest: p.www+ ''
                 }]
             }
         }
     });
     
-    grunt.registerTask('default',['clean','concat','uglify','cssmin','copy']); // ,'clean:temp'
+    grunt.registerTask('default',['clean','concat','uglify','copy']); 
     
 };

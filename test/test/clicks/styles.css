@@ -1,5 +1,16 @@
 
-#menuNumero1{
+.clicks{
+    
+}
+.clicks .botoes{
+  
+}
+.clicks .botoes button{
+  display: block;
+}
+
+
+.clicks #menuNumero1{
     padding: 5px;
     border: 1px solid #ccc;
     position: absolute;
@@ -11,6 +22,6 @@
 }
 
 
-.menu-open-menu1 #menuNumero1{
+.menu-open-menu1 .clicks #menuNumero1{
     transform: translate3d(0,0,0);
 }
