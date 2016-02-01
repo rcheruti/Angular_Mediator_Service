@@ -13,7 +13,7 @@ Module.directive('menuAction',['$parse','MenuService','$swipe',
      *  - AttrName: name of the class to pass to the method. Ex.: 'open'...
      */
     link: function($scope, $element, $attrs, $ctrls){
-      var obj = $parse( $attrs.menuAction )();
+      var obj = $parse( $attrs.menuAction )($scope);
       if( !obj ) return;
       $swipe.bind( $element, {
         start: function(pos, ev){
